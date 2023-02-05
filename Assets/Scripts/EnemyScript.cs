@@ -27,13 +27,16 @@ public class EnemyScript : MonoBehaviour
     {
         currentHealth = maxhealthEnemy;
         anim = GetComponent<Animator>();
-       
+
+        
+
     }
 
 
     public void TakeDamagePlayer(float damageEnemy)
     {
-        currentHealth -= damageEnemy;
+       
+        GameManager.instance.life -= damageEnemy;
 
         anim.SetTrigger("Damaged");
 

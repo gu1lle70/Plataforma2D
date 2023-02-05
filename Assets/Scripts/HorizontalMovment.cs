@@ -23,8 +23,8 @@ public class HorizontalMovment : MonoBehaviour
     public LayerMask enemyLayers;
     public float attackRange = 0.5f;
     public float damageEnemy = 20.0f;
-    public float maxhealthPlayer = 200.0f;
-    float currentHealth;
+   
+    public float maxHealth = 100f;
 
 
     public float attackRate = 2f;
@@ -33,10 +33,11 @@ public class HorizontalMovment : MonoBehaviour
 
     void Start()
     {
-        currentHealth = maxhealthPlayer;
+        
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
+        maxHealth = GameManager.instance.life;
 
     }
 
@@ -44,16 +45,17 @@ public class HorizontalMovment : MonoBehaviour
     {
 
         Horizontal = Input.GetAxisRaw("Horizontal");
-
-        if (Horizontal > 0)
+        if (!PauseMenu.instance.isPaused)
         {
-            sr.flipX = false;
+            if (Horizontal > 0)
+            {
+                sr.flipX = false;
+            }
+            if (Horizontal < 0)
+            {
+                sr.flipX = true;
+            }
         }
-        if (Horizontal < 0)
-        {
-            sr.flipX = true;
-        }
-
         anim.SetBool("Running", Horizontal != 0.0f);
 
 
@@ -154,12 +156,12 @@ public class HorizontalMovment : MonoBehaviour
     }
     public void TakeDamageEnemy(float damagePlayer)
     {
-        
-        currentHealth -= damagePlayer;
+
+        GameManager.instance.life -= damagePlayer;
         Debug.Log("Has recibido damage");
         anim.SetTrigger("Damaged");
-
-        if (currentHealth <= 0)
+            
+        if (GameManager.instance.life <= 0)
         {
 
             Dead();
@@ -182,4 +184,8 @@ public class HorizontalMovment : MonoBehaviour
         
 
     }
+
+
+
+
 }
