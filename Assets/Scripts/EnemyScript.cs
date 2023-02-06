@@ -20,6 +20,7 @@ public class EnemyScript : MonoBehaviour
     public float damagePlayer = 20.0f;
     public float attackRate = 2f;
     float nextAttackTime = 0f;
+    float attakTimer = 0f;
 
 
 
@@ -101,6 +102,22 @@ public class EnemyScript : MonoBehaviour
         float distance = Mathf.Abs(Warrior.transform.position.x - transform.position.x);
 
 
+        if(distance <= 2.0f)
+        {
+            attakTimer += Time.deltaTime;
+            if(attakTimer > attackRate)
+            {
+             attakTimer = 0;
+                Attack();
+            }
+
+        }
+        else
+        {
+            attakTimer = 0;
+            anim.SetBool("Attack", false);
+        }
+        /*
         if (distance <= 2.0f && Time.time >= nextAttackTime)
 
         {
@@ -116,6 +133,7 @@ public class EnemyScript : MonoBehaviour
             nextAttackTime = Time.time + 1f / attackRate;
             anim.SetBool("Attack", false);
         }
-        
+       */
     }
+        
 }

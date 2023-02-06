@@ -11,6 +11,7 @@ public class HorizontalMovment : MonoBehaviour
 
     public float speed = 0;
     public float jumpForce = 0;
+    public float dashForce = 0;
     private float Horizontal;
 
 
@@ -49,15 +50,15 @@ public class HorizontalMovment : MonoBehaviour
         {
             if (Horizontal > 0)
             {
-                sr.flipX = false;
+                transform.localScale = new Vector3(5.0f, 5.0f, 5.0f);
             }
             if (Horizontal < 0)
             {
-                sr.flipX = true;
+                transform.transform.localScale = new Vector3(-5.0f, 5.0f, 5.0f);
             }
-        }
+        
         anim.SetBool("Running", Horizontal != 0.0f);
-
+        
 
         int count = 0;
         for (int i = 0; i < rays.Count; i++)
@@ -87,7 +88,7 @@ public class HorizontalMovment : MonoBehaviour
             Grounded = false;
             transform.parent = null;
         }
-        if (!PauseMenu.instance.isPaused) { 
+        
         if (Input.GetKeyDown(KeyCode.Space) && Grounded)
         {
 
@@ -95,8 +96,26 @@ public class HorizontalMovment : MonoBehaviour
             Debug.Log("JUMP");
 
         }
-        if (Time.time >= nextAttackTime)
+        if (Input.GetKeyDown(KeyCode.F))
         {
+
+        Dash();
+
+        Debug.Log("DASHED");
+
+        }
+       if (Input.GetKeyDown(KeyCode.LeftControl) && Grounded)
+       {
+
+                Agacharse();
+                
+                Debug.Log("Agachao");
+
+        }
+
+            if (Time.time >= nextAttackTime)
+
+             {
             if (Input.GetMouseButtonDown(0))
             {
                 Attack();
@@ -115,6 +134,29 @@ public class HorizontalMovment : MonoBehaviour
     {
 
         rb.AddForce(Vector2.up * jumpForce);
+
+    }
+    private void Dash()
+    {
+        if (Horizontal > 0)
+        {
+            rb.AddForce(Vector2.right * dashForce);
+            anim.SetTrigger("Dash");
+
+        }
+        if (Horizontal < 0)
+        {
+            rb.AddForce(Vector2.left * dashForce);
+            anim.SetTrigger("Dash");
+        }
+        
+
+    }
+    private void Agacharse()
+    {
+
+        anim.SetTrigger("crouch");
+
 
     }
     private void FixedUpdate()
