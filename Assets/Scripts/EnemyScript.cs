@@ -19,7 +19,6 @@ public class EnemyScript : MonoBehaviour
     public float attackRange = 0.5f;
     public float damagePlayer = 20.0f;
     public float attackRate = 2f;
-    float nextAttackTime = 0f;
     float attakTimer = 0f;
 
 
@@ -36,8 +35,8 @@ public class EnemyScript : MonoBehaviour
 
     public void TakeDamagePlayer(float damageEnemy)
     {
-       
-        GameManager.instance.life -= damageEnemy;
+
+        currentHealth -= damageEnemy;
 
         anim.SetTrigger("Damaged");
 
