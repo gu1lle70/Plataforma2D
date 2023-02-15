@@ -7,12 +7,21 @@ public class LinearMovment : MonoBehaviour
     public List<Transform> points;
     public int nextPoint = 0;
     public float speed = 5;
-    void Start()
+    public GameObject Player;
+    private Transform rbody;
+    private bool isOnPlatform;
+    private Transform platformRBody;
+    private Vector3 lastPlatFormPosition;
+
+    void Awake()
     {
-        
+        rbody = GetComponent<Transform>();
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+
+    }
     void Update()
     {
         Vector3 dir = points[nextPoint].position - transform.position;
@@ -20,22 +29,23 @@ public class LinearMovment : MonoBehaviour
         dir.Normalize();
 
         transform.position += dir * speed * Time.deltaTime;
-       
-        if (distance < 0.1f) {
 
-            
+        if (distance < 0.1f)
+        {
+
+
             nextPoint++;
             if (nextPoint >= points.Count)
             {
 
                 nextPoint = 0;
-            
-            }
-        
-        
-        }
 
-        
+            }
+
+
+        }
 
     }
 }
+
+  

@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 
     public float punt;
     public float life;
+    public float moneda;
+    public int key;
 
     private void Awake()
     {

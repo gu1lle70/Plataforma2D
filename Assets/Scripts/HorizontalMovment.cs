@@ -10,15 +10,8 @@ public class HorizontalMovment : MonoBehaviour
     public SpriteRenderer sr;
 
     public float speed = 0;
-    public float jumpForce = 0;
-    public float dashForce = 0;
     private float Horizontal;
-
-
-    public List<Vector3> rays;
-    public LayerMask groundMask;
-    public float GroundDistance = 5f;
-    public bool Grounded;
+    public float dashForce = 270;
 
     public Transform attackPoint;
     public LayerMask enemyLayers;
@@ -38,7 +31,6 @@ public class HorizontalMovment : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
-        maxHealth = GameManager.instance.life;
 
     }
 
@@ -58,61 +50,15 @@ public class HorizontalMovment : MonoBehaviour
             }
         
         anim.SetBool("Running", Horizontal != 0.0f);
-        
 
-        int count = 0;
-        for (int i = 0; i < rays.Count; i++)
-        {
-            Debug.DrawRay(transform.position + rays[i], transform.up * -1 * GroundDistance, Color.red);
-            RaycastHit2D hit = Physics2D.Raycast(transform.position + rays[i], transform.up * -1, GroundDistance, groundMask);
-            if (hit.collider != null)
+            if (Input.GetKeyDown(KeyCode.F))
             {
-                count++;
-                Debug.DrawRay(transform.position + rays[i], transform.up * -1 * hit.distance, Color.green);
-                if (hit.transform.tag == "PlataformaMovil")
-                {
-                    transform.parent = hit.transform;
-                }
-                else
-                {
-                    transform.parent = null;
-                }
+
+                Dash();
+
+                Debug.Log("DASHED");
+
             }
-        }
-        if (count > 0)
-        {
-            Grounded = true;
-        }
-        else
-        {
-            Grounded = false;
-            transform.parent = null;
-        }
-        
-        if (Input.GetKeyDown(KeyCode.Space) && Grounded)
-        {
-
-            Jump();
-            Debug.Log("JUMP");
-
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-
-        Dash();
-
-        Debug.Log("DASHED");
-
-        }
-       if (Input.GetKeyDown(KeyCode.LeftControl) && Grounded)
-       {
-
-                Agacharse();
-                
-                Debug.Log("Agachao");
-
-        }
-
             if (Time.time >= nextAttackTime)
 
              {
@@ -130,10 +76,12 @@ public class HorizontalMovment : MonoBehaviour
        }
     }
 
-    private void Jump()
+    
+    private void FixedUpdate()
     {
 
-        rb.AddForce(Vector2.up * jumpForce);
+        rb.velocity = new Vector2(Horizontal * speed, rb.velocity.y);
+        transform.position += new Vector3(Horizontal * speed * Time.fixedDeltaTime, 0, 0);
 
     }
     private void Dash()
@@ -149,24 +97,9 @@ public class HorizontalMovment : MonoBehaviour
             rb.AddForce(Vector2.left * dashForce);
             anim.SetTrigger("Dash");
         }
-        
-
-    }
-    private void Agacharse()
-    {
-
-        anim.SetTrigger("crouch");
 
 
     }
-    private void FixedUpdate()
-    {
-
-        rb.velocity = new Vector2(Horizontal * speed, rb.velocity.y);
-        transform.position += new Vector3(Horizontal * speed * Time.fixedDeltaTime, 0, 0);
-
-    }
-
     void Attack()
     {
 
