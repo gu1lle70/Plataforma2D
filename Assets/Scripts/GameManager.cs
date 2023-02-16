@@ -6,10 +6,9 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    public float punt;
-    public float life;
-    public float moneda;
-    public int key;
+    public float life = 3;
+    public int moneda = 0;
+    public bool key = false;
 
     private void Awake()
     {

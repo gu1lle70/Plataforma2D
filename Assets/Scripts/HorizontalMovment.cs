@@ -42,11 +42,12 @@ public class HorizontalMovment : MonoBehaviour
         {
             if (Horizontal > 0)
             {
-                transform.localScale = new Vector3(5.0f, 5.0f, 5.0f);
+                transform.localRotation = Quaternion.Euler(0, 0, 0);
+               
             }
             if (Horizontal < 0)
             {
-                transform.transform.localScale = new Vector3(-5.0f, 5.0f, 5.0f);
+                transform.localRotation = Quaternion.Euler(0, 180, 0);
             }
         
         anim.SetBool("Running", Horizontal != 0.0f);
