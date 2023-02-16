@@ -12,6 +12,7 @@ public class GroundDetector : MonoBehaviour
     public float jumpForce = 3000;
     private Rigidbody2D rb;
     public Animator anim;
+    public GameObject platform;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,9 +33,10 @@ public class GroundDetector : MonoBehaviour
             {
                 count++;
                 Debug.DrawRay(transform.position + rays[i], transform.up * -1 * hit.distance, Color.green);
+
                 if (hit.transform.tag == "PlataformaMovil")
                 {
-                    transform.parent = hit.transform;
+                    this.transform.parent = platform.transform;
                     Debug.Log("Entraste platform");
                 }
                 else
@@ -42,6 +44,7 @@ public class GroundDetector : MonoBehaviour
                     transform.parent = null;
                 }
             }
+            
         }
         if (count > 0)
         {
