@@ -17,7 +17,7 @@ public class EnemyScript : MonoBehaviour
     public Transform attackPoint;
     public LayerMask PlayerLayers;
     public float attackRange = 0.5f;
-    public float damagePlayer = 20.0f;
+    public int damagePlayer = 1;
     public float attackRate = 2f;
     float attakTimer = 0f;
 

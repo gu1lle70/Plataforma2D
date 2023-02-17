@@ -8,7 +8,7 @@ using TMPro;
 public class UImanager : MonoBehaviour
 {
     public TextMeshProUGUI Moneda;
-
+    public GameObject key;
     void Start()
     {
         
@@ -18,5 +18,14 @@ public class UImanager : MonoBehaviour
     void Update()
     {
         Moneda.text = GameManager.instance.moneda.ToString();
+        if (GameManager.instance.key == true)
+        {
+            key.SetActive(true);
+
+        }
+        else
+        {
+            key.SetActive(false);
+        }
     }
 }

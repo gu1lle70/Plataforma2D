@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
 
     public float life = 3;
     public int moneda = 0;
-    public bool key = false;
+    public bool key = true;
 
     private void Awake()
     {
