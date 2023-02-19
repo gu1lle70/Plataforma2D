@@ -3,15 +3,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+
 public class HorizontalMovment : MonoBehaviour
 {
     private Rigidbody2D rb;
     public Animator anim;
     public SpriteRenderer sr;
+    private TrailRenderer tr;
+    private Collider2D coll;
 
     public float speed = 0;
     private float Horizontal;
-    public float dashForce = 270;
+    private float baseGravity;
+    public GameObject player;
+    public GameObject DeadScreen;
+
+    public float dashForce = 3000;
+    public float dashTime = 0.5f;
+
+    private bool isDashing = false;
+    private bool canDash = true;
+    public float candashTime = 1f;
 
     public Transform attackPoint;
     public LayerMask enemyLayers;
@@ -27,16 +40,17 @@ public class HorizontalMovment : MonoBehaviour
 
     void Start()
     {
-        
+        coll = GetComponent<Collider2D>();
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
-
+        tr = GetComponent<TrailRenderer>();
+        baseGravity = rb.gravityScale;
     }
 
     void Update()
     {
-
+        tr.emitting = false;
         Horizontal = Input.GetAxisRaw("Horizontal");
         if (!PauseMenu.instance.isPaused)
         {
@@ -52,10 +66,10 @@ public class HorizontalMovment : MonoBehaviour
         
         anim.SetBool("Running", Horizontal != 0.0f);
 
-            if (Input.GetKeyDown(KeyCode.F))
+            if (Input.GetKeyDown(KeyCode.F) && canDash)
             {
 
-                Dash();
+                StartCoroutine(Dash());
 
                 Debug.Log("DASHED");
 
@@ -78,31 +92,52 @@ public class HorizontalMovment : MonoBehaviour
     }
 
     
+   
+    private IEnumerator Dash()
+    {
+        if(Horizontal > 0 && canDash)
+        {
+            isDashing = true;
+            canDash = false;
+            rb.gravityScale = 0f;
+            rb.velocity = new Vector2(dashForce * transform.localScale.x, 0);
+            anim.SetTrigger("Dash");
+            tr.emitting = true;
+            coll.sharedMaterial.friction = 1f;
+            yield return new WaitForSeconds(dashTime);
+            isDashing = false;
+            rb.gravityScale = baseGravity;
+            tr.emitting = false;
+            yield return new WaitForSeconds(candashTime);
+            canDash = true;
+            
+        }
+        if (Horizontal < 0 && canDash)
+        {
+            isDashing = true;
+            canDash = false;
+            rb.gravityScale = 0f;
+            rb.velocity = new Vector2(dashForce * -transform.localScale.x, 0);
+            anim.SetTrigger("Dash");
+            tr.emitting = true;
+            coll.sharedMaterial.friction = 1f;
+            yield return new WaitForSeconds(dashTime);
+            isDashing = false;
+            rb.gravityScale = baseGravity;
+            tr.emitting = false;
+            yield return new WaitForSeconds(candashTime);
+            canDash = true;
+
+        }
+    }
+
     private void FixedUpdate()
     {
-
-        rb.velocity = new Vector2(Horizontal * speed, rb.velocity.y);
         transform.position += new Vector3(Horizontal * speed * Time.fixedDeltaTime, 0, 0);
 
     }
-    private void Dash()
-    {
-        if (Horizontal > 0)
-        {
-            rb.AddForce(Vector2.right * dashForce);
-            anim.SetTrigger("Dash");
-
-        }
-        if (Horizontal < 0)
-        {
-            rb.AddForce(Vector2.left * dashForce);
-            anim.SetTrigger("Dash");
-        }
-
-
-    }
     void Attack()
-    {
+         {
 
         anim.SetTrigger("Attack");
 
@@ -152,7 +187,8 @@ public class HorizontalMovment : MonoBehaviour
 
         anim.SetBool("isDead", true);
         rb.gravityScale = 0.0f;
-
+        DeadScreen.SetActive(true);
+        Destroy(player);
         GetComponent<Collider2D>().enabled = false;
         this.enabled = false;
         
@@ -160,6 +196,7 @@ public class HorizontalMovment : MonoBehaviour
         
 
     }
+
 
 
 

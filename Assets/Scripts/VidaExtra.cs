@@ -28,7 +28,7 @@ public class VidaExtra : MonoBehaviour
             else
             {
                 Destroy(gameObject);
-                GameManager.instance.life += 1;
+                GameManager.instance.life++;
             }
         }
     }

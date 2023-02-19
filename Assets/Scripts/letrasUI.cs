@@ -17,9 +17,34 @@ public class letrasUI : MonoBehaviour
 
 
     }
-    public void OnButtonPress()
+    public void OnButtonPressJugar()
     {
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("Juego");
+        Time.timeScale = 1.0f;
+
+    }
+    public void OnButtonPressGimnasio()
+    {
+        SceneManager.LoadScene("Gimnasio");
+        Time.timeScale = 1.0f;
+
+    }
+    public void OnButtonPressExit()
+    {
+
+        SceneManager.LoadScene("Start");
+
+    }
+    public void OnButtonPressCredits()
+    {
+
+        SceneManager.LoadScene("Creditos");
+
+    }
+    public void OnButtonPressExitGame()
+    {
+
+        Application.Quit();
 
     }
 }

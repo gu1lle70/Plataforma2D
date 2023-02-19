@@ -9,9 +9,7 @@ public class LinearMovment : MonoBehaviour
     public float speed = 5;
     public GameObject Player;
     private Transform rbody;
-    private bool isOnPlatform;
-    private Transform platformRBody;
-    private Vector3 lastPlatFormPosition;
+
 
     void Awake()
     {
@@ -29,23 +27,27 @@ public class LinearMovment : MonoBehaviour
         dir.Normalize();
 
         transform.position += dir * speed * Time.deltaTime;
-
+        
         if (distance < 0.1f)
         {
 
 
             nextPoint++;
+            
             if (nextPoint >= points.Count)
             {
 
                 nextPoint = 0;
+                
 
             }
 
 
         }
+        
 
     }
+    
 }
 
   

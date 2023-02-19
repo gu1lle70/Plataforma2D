@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - PlataformaMovil
+  - PlataformaMovil2
   layers:
   - Default
   - TransparentFX

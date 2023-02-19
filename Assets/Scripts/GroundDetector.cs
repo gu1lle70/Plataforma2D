@@ -13,6 +13,7 @@ public class GroundDetector : MonoBehaviour
     private Rigidbody2D rb;
     public Animator anim;
     public GameObject platform;
+    public GameObject platform2;
     // Start is called before the first frame update
     void Start()
     {
@@ -39,6 +40,11 @@ public class GroundDetector : MonoBehaviour
                     this.transform.parent = platform.transform;
                     Debug.Log("Entraste platform");
                 }
+                if (hit.transform.tag == "PlataformaMovil2")
+                {
+                    this.transform.parent = platform2.transform;
+                    Debug.Log("Entraste platform");
+                }
                 else
                 {
                     transform.parent = null;
@@ -53,6 +59,7 @@ public class GroundDetector : MonoBehaviour
         else
         {
             grounded = false;
+           
             transform.parent = null;
         }
 
@@ -75,14 +82,15 @@ public class GroundDetector : MonoBehaviour
     private void Jump()
     {
 
+        anim.SetTrigger("Jump");
         rb.AddForce(Vector2.up * jumpForce);
+
 
     }
     private void Agacharse()
     {
 
         anim.SetTrigger("crouch");
-
 
     }
 

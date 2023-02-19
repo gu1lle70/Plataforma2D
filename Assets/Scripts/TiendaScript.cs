@@ -5,12 +5,16 @@ using UnityEngine;
 public class TiendaScript : MonoBehaviour
 {
     public GameObject tiendaMenu;
-    
+    public GameObject win;
+    public GameObject locker;
+    public GameObject tienda;
+
     // Start is called before the first frame update
     void Start()
     {
         tiendaMenu.SetActive(false);
-
+        win.SetActive(false);
+        tienda.SetActive(false);
     }
 
     // Update is called once per frame
@@ -24,8 +28,16 @@ public class TiendaScript : MonoBehaviour
         Debug.Log("entraste");
         if (other.tag == "Player")
         {
-            
             tiendaMenu.SetActive(true);
+        }
+        if(other.tag == "Player" && GameManager.instance.key == true)
+        {
+            Time.timeScale = 0.0f;
+            tiendaMenu.SetActive(false);
+            win.SetActive(true);
+            locker.SetActive(false);
+            tienda.SetActive(true);
+            
         }
     }
 
@@ -38,4 +50,5 @@ public class TiendaScript : MonoBehaviour
             tiendaMenu.SetActive(false);
         }
     }
+
 }

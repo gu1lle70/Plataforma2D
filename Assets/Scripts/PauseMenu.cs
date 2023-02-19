@@ -6,12 +6,13 @@ public class PauseMenu : MonoBehaviour
 {
     public static PauseMenu instance;
     public GameObject pauseMenu;
-    
+
     public bool isPaused
     {
         get;
         private set;
     }
+
 
     private void Awake()
     {
